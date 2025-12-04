@@ -1,0 +1,49 @@
+# Function to enter product names and prices recursively
+def get_products(products=None):
+    if products is None:
+        products = {}
+    
+    # Limit to avoid infinite recursion
+    if len(products) >= 1000:
+        print("Maximum limit of 1000 products reached!")
+        return products
+    
+    name = input("Enter product name (or type 'done' to finish): ")
+
+    if name.lower() == "done":
+        return products
+    
+    price = float(input(f"Enter price for '{name}': ₹"))
+    
+    # Store item in dictionary
+    products[name] = price
+
+    return get_products(products)
+
+# Billing Process
+print("🛍️ Welcome to Store Billing System")
+products = get_products()
+
+total_items = len(products)
+total_cost = sum(products.values())
+
+print("\n--- 🧾 BILL SUMMARY ---")
+print(f"Total items purchased: {total_items}")
+print("Items Purchased:")
+for i, (name, price) in enumerate(products.items(), start=1):
+    print(f"{i}. {name} - ₹{price:.2f}")
+
+print(f"\nTotal cost before discount: ₹{total_cost:.2f}")
+
+# Apply discount if eligible
+if total_items > 5:
+    discount = total_cost * 0.10
+    final_amount = total_cost - discount
+    print("\nDiscount Applied: 10%")
+    print(f"Discount Amount: ₹{discount:.2f}")
+else:
+    final_amount = total_cost
+    print("\nNo discount applied")
+
+print(f"Final Amount to Pay: ₹{final_amount:.2f}")
+print("Thank you for shopping! 😊")
